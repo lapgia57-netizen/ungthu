@@ -4,143 +4,223 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ung Thư Và Giai Đoạn Hóa Trị</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
-        body {
-            font-family: Arial, sans-serif;
+        :root {
+            --primary: #007bff;
+            --dark: #2c3e50;
+            --light: #f8f9fa;
+            --warning: #ffc107;
+        }
+
+        * {
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: var(--light);
             color: #333;
-            line-height: 1.6;
+            line-height: 1.7;
         }
+
         header {
-            background-color: #007bff;
+            background: linear-gradient(135deg, var(--primary), #0056b3);
             color: white;
-            padding: 20px;
             text-align: center;
+            padding: 3rem 1rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
         }
+
+        header h1 {
+            font-size: 2.4rem;
+            margin-bottom: 0.5rem;
+        }
+
         nav {
-            background-color: #333;
-            overflow: hidden;
+            background-color: var(--dark);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
-        nav a {
-            float: left;
-            display: block;
-            color: white;
-            text-align: center;
-            padding: 14px 20px;
-            text-decoration: none;
-        }
-        nav a:hover {
-            background-color: #ddd;
-            color: black;
-        }
-        .container {
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
             max-width: 1200px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: white;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            margin: 0 auto;
         }
-        h2, h3 {
-            color: #007bff;
-        }
-        img {
-            max-width: 100%;
-            height: auto;
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 1rem 1.5rem;
             display: block;
-            margin: 20px auto;
-            border-radius: 8px;
+            transition: all 0.3s;
         }
+
+        nav a:hover, nav a.active {
+            background-color: var(--primary);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 2.5rem auto;
+            padding: 0 1.5rem;
+        }
+
+        section {
+            background: white;
+            padding: 2.5rem;
+            margin-bottom: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        h2 {
+            color: var(--primary);
+            margin-bottom: 1.2rem;
+            font-size: 1.9rem;
+            border-left: 5px solid var(--primary);
+            padding-left: 1rem;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.2rem;
+            margin: 1.8rem 0;
+        }
+
+        .gallery img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .gallery img:hover {
+            transform: scale(1.03);
+        }
+
         .note {
             background-color: #fff3cd;
-            padding: 15px;
-            border-left: 5px solid #ffc107;
-            margin: 20px 0;
+            border-left: 6px solid var(--warning);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 8px;
+            font-weight: 500;
         }
+
+        .note h3 {
+            margin-top: 0;
+            color: #856404;
+        }
+
         footer {
-            background-color: #333;
+            background-color: var(--dark);
             color: white;
             text-align: center;
-            padding: 10px;
-            margin-top: 20px;
+            padding: 1.8rem;
+            margin-top: 3rem;
         }
+
         @media (max-width: 768px) {
-            nav a {
-                float: none;
-                width: 100%;
-            }
-            .container {
-                padding: 10px;
-            }
+            header h1 { font-size: 2rem; }
+            nav ul { flex-direction: column; }
+            section { padding: 1.8rem; }
         }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>Ung Thư Và Giai Đoạn Hóa Trị</h1>
-    <p>Thông tin cơ bản và tham khảo</p>
+    <h1><i class="fas fa-heartbeat"></i> Ung Thư Và Giai Đoạn Hóa Trị</h1>
+    <p>Thông tin cơ bản - Chỉ mang tính tham khảo</p>
 </header>
 
 <nav>
-    <a href="#gioithieu">Giới thiệu</a>
-    <a href="#hoatri">Hóa trị là gì?</a>
-    <a href="#giaidoan">Hóa trị ở các giai đoạn</a>
-    <a href="#quytrinh">Quy trình hóa trị</a>
-    <a href="#tacdungphu">Tác dụng phụ</a>
-    <a href="#luuy">Lưu ý</a>
+    <ul>
+        <li><a href="#gioithieu">Giới thiệu</a></li>
+        <li><a href="#hoatri">Hóa trị là gì?</a></li>
+        <li><a href="#giaidoan">Hóa trị theo giai đoạn</a></li>
+        <li><a href="#quytrinh">Quy trình hóa trị</a></li>
+        <li><a href="#tacdungphu">Tác dụng phụ</a></li>
+    </ul>
 </nav>
 
 <div class="container">
 
     <section id="gioithieu">
         <h2>Ung thư là gì?</h2>
-        <p>Ung thư là bệnh lý xảy ra khi các tế bào trong cơ thể phát triển bất thường, phân chia không kiểm soát và có khả năng xâm lấn hoặc di căn đến các bộ phận khác.</p>
-        <p>Việc điều trị phụ thuộc vào loại ung thư, giai đoạn bệnh, vị trí khối u và tình trạng sức khỏe tổng quát của bệnh nhân.</p>![](grok_render_searched_image_card_json={"cards":[{"cardId":"262efc","imageId":"7","caption":"Các giai đoạn ung thư (hình minh họa infographic về ung thư vú)","size":"LARGE"},{"cardId":"acb22a","imageId":"6","caption":"","size":"LARGE"},{"cardId":"0c63b3","imageId":"8","caption":"","size":"LARGE"}]})
+        <p>Ung thư là tình trạng các tế bào trong cơ thể phát triển bất thường, phân chia không kiểm soát, có khả năng xâm lấn và di căn đến các cơ quan khác.</p>
+        <p>Phương pháp điều trị phụ thuộc vào loại ung thư, giai đoạn bệnh, vị trí khối u và sức khỏe tổng thể của bệnh nhân.</p>
+
+        <div class="gallery">
+            <img src="https://media.sciencephoto.com/f0/31/74/03/f0317403-800px-wm.jpg" alt="Các giai đoạn ung thư vú minh họa">
+            <img src="https://stg-uploads.slidenest.com/template_1688/templateColor_1671/previewImages/breast-cancer-stages-infographics-powerpoint-google-slides-keynote-presentation-template-6.jpeg" alt="Infographic giai đoạn ung thư vú">
+            <img src="https://img.freepik.com/premium-vector/stages-breast-cancer-infographic-awareness-flat-illustration_828072-961.jpg" alt="Giai đoạn ung thư minh họa">
+        </div>
     </section>
 
     <section id="hoatri">
         <h2>Hóa trị ung thư là gì?</h2>
-        <p>Hóa trị là phương pháp sử dụng thuốc (hóa chất gây độc tế bào) để tiêu diệt hoặc kìm hãm sự phát triển của tế bào ung thư. Thuốc tấn công tế bào phân chia nhanh, nhưng cũng ảnh hưởng đến tế bào lành mạnh, dẫn đến tác dụng phụ.</p>
-        <p>Hóa trị có thể dùng đơn lẻ hoặc kết hợp với phẫu thuật, xạ trị, miễn dịch...</p>![](grok_render_searched_image_card_json={"cards":[{"cardId":"9005a1","imageId":"3","caption":"Truyền hóa trị tĩnh mạch (hình minh họa)","size":"LARGE"},{"cardId":"235555","imageId":"4","caption":"","size":"LARGE"},{"cardId":"165693","imageId":"5","caption":"","size":"LARGE"}]})
+        <p>Hóa trị (chemotherapy) sử dụng thuốc hóa chất để tiêu diệt hoặc kìm hãm sự phát triển của tế bào ung thư. Thuốc tấn công các tế bào phân chia nhanh, nhưng cũng ảnh hưởng đến một số tế bào lành mạnh, gây ra tác dụng phụ.</p>
+        <p>Hóa trị có thể dùng đơn độc hoặc kết hợp với phẫu thuật, xạ trị, liệu pháp miễn dịch...</p>
+
+        <div class="gallery">
+            <img src="https://media.istockphoto.com/id/1467847715/vector/woman-with-cancer-patient-undergoing-chemotherapy-medical-intravenous-infusion-female.jpg?s=612x612&w=0&k=20&c=YV-mJworCBbFF7w7BihwqXu4eNXSd05xWHOyCsyJ-KA=" alt="Bệnh nhân truyền hóa trị tĩnh mạch">
+            <img src="https://www.shutterstock.com/image-vector/isometric-female-patient-sits-reclining-600nw-2600517335.jpg" alt="Truyền hóa trị tại bệnh viện">
+            <img src="https://media.gettyimages.com/id/2040918856/vector/close-up-female-cancer-patient-receiving-chemotherapy-treatment.jpg?s=612x612&w=gi&k=20&c=UHJwFBUbju7nKkVwk6p1-cYw_6y_vijYGqWN_q-_CLQ=" alt="Quy trình truyền hóa trị">
+        </div>
     </section>
 
     <section id="giaidoan">
         <h2>Hóa trị được áp dụng ở các giai đoạn ung thư</h2>
-        <p>Hóa trị có thể sử dụng ở mọi giai đoạn:</p>
         <ul>
-            <li><strong>Giai đoạn sớm (I-II):</strong> Hóa trị bổ trợ sau phẫu thuật để giảm tái phát.</li>
-            <li><strong>Giai đoạn III:</strong> Kết hợp với xạ trị hoặc phẫu thuật.</li>
-            <li><strong>Giai đoạn IV (di căn):</strong> Giảm nhẹ triệu chứng, cải thiện chất lượng sống.</li>
+            <li><strong>Giai đoạn sớm (I-II):</strong> Thường dùng bổ trợ (adjuvant) sau phẫu thuật để giảm nguy cơ tái phát.</li>
+            <li><strong>Giai đoạn III:</strong> Kết hợp với xạ trị/phẫu thuật để tăng hiệu quả.</li>
+            <li><strong>Giai đoạn IV (di căn):</strong> Mục tiêu giảm nhẹ triệu chứng, kiểm soát bệnh, cải thiện chất lượng cuộc sống.</li>
         </ul>
-        <p>Các loại: Tân bổ trợ, bổ trợ, giảm nhẹ, duy trì...</p>
+        <p>Các loại hóa trị phổ biến: Tân bổ trợ, bổ trợ, giảm nhẹ, duy trì...</p>
     </section>
 
     <section id="quytrinh">
         <h2>Quy trình hóa trị</h2>
-        <p>Hóa trị theo chu kỳ: Truyền thuốc vài ngày + nghỉ 2-3 tuần để phục hồi. Thường 4-8 chu kỳ, kéo dài 3-6 tháng.</p>
-        <p>Cách đưa thuốc: Truyền tĩnh mạch (phổ biến), uống, tiêm...</p>
+        <p>Hóa trị thường được thực hiện theo **chu kỳ**: Truyền thuốc trong vài ngày → nghỉ 2-3 tuần để cơ thể phục hồi. Một liệu trình thường 4-8 chu kỳ, kéo dài 3-6 tháng hoặc lâu hơn tùy trường hợp.</p>
+        <p>Cách đưa thuốc: Truyền tĩnh mạch (phổ biến nhất), thuốc uống, tiêm bắp...</p>
     </section>
 
     <section id="tacdungphu">
-        <h2>Tác dụng phụ thường gặp</h2>
-        <p>Buồn nôn, rụng tóc, mệt mỏi, thiếu máu, giảm bạch cầu (dễ nhiễm trùng), loét miệng...</p>
-        <p>Có thể kiểm soát bằng thuốc hỗ trợ.</p>![](grok_render_searched_image_card_json={"cards":[{"cardId":"816aae","imageId":"0","caption":"Tác dụng phụ: Rụng tóc và mệt mỏi do hóa trị","size":"LARGE"},{"cardId":"e939da","imageId":"1","caption":"","size":"LARGE"},{"cardId":"4faab5","imageId":"2","caption":"","size":"LARGE"}]})
+        <h2>Tác dụng phụ thường gặp của hóa trị</h2>
+        <p>Buồn nôn và nôn, rụng tóc, mệt mỏi, thiếu máu, giảm bạch cầu (dễ nhiễm trùng), loét miệng, thay đổi vị giác...</p>
+        <p>Hầu hết tác dụng phụ đều có thể kiểm soát tốt bằng thuốc hỗ trợ và chăm sóc y tế phù hợp.</p>
+
+        <div class="gallery">
+            <img src="https://www.shutterstock.com/image-vector/side-effects-chemotherapy-set-patient-260nw-1569975673.jpg" alt="Các tác dụng phụ hóa trị minh họa">
+            <img src="https://thumbs.dreamstime.com/z/woman-suffering-chemotherapy-side-effects-hair-loss-fatigue-anemia-vomiting-intestinal-disorders-mood-swings-weight-skin-230850796.jpg" alt="Rụng tóc và mệt mỏi do hóa trị">
+            <img src="https://cdn.myhealthteams.com/graphic/63126045f535284969b4cf05/woriginal/MyBCTeam_Chemotherapy_Side_Effects_What_To_Expect_1200x630-a4c856a7975c5912d4078dc840d8c03f.webp?1724686811" alt="Tác dụng phụ thường gặp">
+        </div>
     </section>
 
     <section id="luuy">
         <div class="note">
-            <h3>Lưu ý quan trọng</h3>
-            <p>Thông tin trên chỉ mang tính tham khảo. Kế hoạch điều trị phải do bác sĩ chuyên khoa ung bướu quyết định dựa trên tình trạng cụ thể.</p>
-            <p>Hãy đến bệnh viện uy tín để khám và tư vấn sớm. Phát hiện sớm tăng cơ hội chữa khỏi!</p>
+            <h3><i class="fas fa-exclamation-triangle"></i> Lưu ý rất quan trọng</h3>
+            <p>Thông tin trên chỉ mang **tính chất tham khảo**. Mọi kế hoạch điều trị phải do **bác sĩ chuyên khoa ung bướu** quyết định dựa trên tình trạng cụ thể của từng bệnh nhân.</p>
+            <p>Hãy đến cơ sở y tế uy tín để được khám, tư vấn và điều trị sớm. <strong>Phát hiện sớm - cơ hội chữa khỏi cao hơn rất nhiều!</strong></p>
         </div>
     </section>
 
 </div>
 
 <footer>
-    <p>&copy; 2025 Thông tin tham khảo về Ung thư và Hóa trị</p>
+    <p>© 2025 - Thông tin tham khảo về Ung thư & Hóa trị | Không thay thế lời khuyên y khoa</p>
 </footer>
 
 </body>
