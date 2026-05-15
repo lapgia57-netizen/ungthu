@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Danh mục thuốc truyền hoá chất</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: Inter, system-ui, sans-serif; }
+  </style>
+</head>
+<body class="min-h-screen bg-slate-50 text-slate-800">
+  <div class="max-w-6xl mx-auto p-4 md:p-8">
+    <header class="mb-8">
+      <h1 class="text-3xl md:text-4xl font-bold">Danh mục thuốc truyền hoá chất</h1>
+      <p class="text-slate-600 mt-2">Tra cứu các thuốc thường dùng, công dụng và tác dụng phụ cần theo dõi.</p>
+      <input id="search" type="text" placeholder="Tìm theo tên thuốc..." class="mt-4 w-full p-3 rounded-2xl border border-slate-300" oninput="filterCards()" />
+    </header>
+
+    <div id="drugGrid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+    </div>
+  </div>
+
+  <script>
+    const drugs = [
+      {
+        name: 'Paclitaxel',
+        use: 'Điều trị ung thư vú, phổi, buồng trứng.',
+        effects: ['Rụng tóc', 'Buồn nôn', 'Tê bì tay chân', 'Giảm bạch cầu']
+      },
+      {
+        name: 'Cisplatin',
+        use: 'Điều trị ung thư tinh hoàn, buồng trứng, bàng quang.',
+        effects: ['Buồn nôn nặng', 'Độc thận', 'Ù tai', 'Mệt mỏi']
+      },
+      {
+        name: 'Doxorubicin',
+        use: 'Điều trị nhiều loại ung thư máu và khối u đặc.',
+        effects: ['Đỏ nước tiểu', 'Rụng tóc', 'Độc tim', 'Loét miệng']
+      },
+      {
+        name: 'Cyclophosphamide',
+        use: 'Điều trị lymphoma, leukemia, ung thư vú.',
+        effects: ['Giảm miễn dịch', 'Viêm bàng quang', 'Buồn nôn']
+      },
+      {
+        name: 'Gemcitabine',
+        use: 'Điều trị ung thư tụy, phổi, bàng quang.',
+        effects: ['Sốt nhẹ', 'Mệt mỏi', 'Phát ban', 'Giảm tiểu cầu']
+      },
+      {
+        name: 'Oxaliplatin',
+        use: 'Điều trị ung thư đại trực tràng.',
+        effects: ['Nhạy cảm lạnh', 'Tê tay chân', 'Buồn nôn']
+      }
+    ];
+
+    function renderDrugs(list) {
+      const grid = document.getElementById('drugGrid');
+      grid.innerHTML = list.map(drug => `
+        <div class="bg-white rounded-3xl shadow p-6 border border-slate-200">
+          <h2 class="text-xl font-semibold mb-3">${drug.name}</h2>
+          <p class="text-slate-700"><strong>Công dụng:</strong> ${drug.use}</p>
+          <div class="mt-4">
+            <p class="font-medium mb-2">Tác dụng phụ:</p>
+            <ul class="list-disc list-inside text-slate-600 space-y-1">
+              ${drug.effects.map(e => `<li>${e}</li>`).join('')}
+            </ul>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function filterCards() {
+      const q = document.getElementById('search').value.toLowerCase();
+      const filtered = drugs.filter(d => d.name.toLowerCase().includes(q));
+      renderDrugs(filtered);
+    }
+
+    renderDrugs(drugs);
+  </script>
+</body>
+</html>
