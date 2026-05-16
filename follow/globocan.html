@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Ung thư tại Trung Quốc: Tỷ lệ mắc mới và xu hướng | Dữ liệu 2024</title>
+    <!-- Chart.js CDN cho biểu đồ chuyên nghiệp -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <!-- Font Awesome 6 (miễn phí) cho icon đẹp -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(145deg, #eef2f9 0%, #d9e2ef 100%);
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            padding: 2rem 1.5rem;
+            color: #1a2c3e;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        /* card chính */
+        .dashboard-card {
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(2px);
+            border-radius: 2rem;
+            box-shadow: 0 25px 45px -12px rgba(0,0,0,0.25), 0 1px 2px rgba(0,0,0,0.05);
+            overflow: hidden;
+            padding: 1.8rem 2rem 2.2rem;
+            transition: all 0.2s;
+            border: 1px solid rgba(255,255,255,0.6);
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #1e4668, #2b6a9e);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        h1 i {
+            background: none;
+            color: #c44536;
+            background-clip: unset;
+            -webkit-background-clip: unset;
+            font-size: 2rem;
+        }
+
+        .subhead {
+            color: #2c5a7a;
+            font-weight: 500;
+            margin-top: 0.5rem;
+            margin-bottom: 1.8rem;
+            border-left: 4px solid #c44536;
+            padding-left: 1rem;
+            font-size: 1rem;
+        }
+
+        /* grid 2 cột + responsive */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .info-box {
+            background: white;
+            border-radius: 1.5rem;
+            padding: 1.2rem 1.6rem;
+            box-shadow: 0 8px 18px rgba(0,0,0,0.05);
+            transition: transform 0.2s ease;
+        }
+
+        .info-box:hover {
+            transform: translateY(-3px);
+        }
+
+        .info-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            color: #1f4e6e;
+            border-bottom: 2px solid #e9ecef;
+            display: inline-block;
+            padding-bottom: 4px;
+        }
+
+        .big-number {
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: #c44536;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+        }
+
+        .big-number small {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #6c7e91;
+        }
+
+        .stat-desc {
+            color: #4f6f8f;
+            margin-top: 8px;
+            font-size: 0.9rem;
+        }
+
+        .highlight {
+            background: #fff2e8;
+            padding: 0.2rem 0.4rem;
+            border-radius: 12px;
+            font-weight: 600;
+            color: #b33c2c;
+        }
+
+        /* khu vực biểu đồ + bảng nhỏ */
+        .charts-row {
+            display: grid;
+            grid-template-columns: 1fr 1.1fr;
+            gap: 1.8rem;
+            margin: 2rem 0 1.5rem;
+        }
+
+        .chart-card {
+            background: white;
+            border-radius: 1.5rem;
+            padding: 1rem 1.2rem 1.2rem;
+            box-shadow: 0 6px 14px rgba(0,0,0,0.03);
+        }
+
+        .chart-card h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #2c3e4e;
+        }
+
+        canvas {
+            max-height: 280px;
+            width: 100%;
+        }
+
+        .footnote {
+            font-size: 0.75rem;
+            color: #5e7c97;
+            margin-top: 1.8rem;
+            text-align: center;
+            border-top: 1px solid #cddfe7;
+            padding-top: 1.2rem;
+        }
+
+        .trend-badge {
+            background: #eef2fa;
+            border-radius: 40px;
+            padding: 0.2rem 0.8rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+            display: inline-block;
+        }
+
+        @media (max-width: 780px) {
+            body {
+                padding: 1rem;
+            }
+            .stats-grid, .charts-row {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            .dashboard-card {
+                padding: 1.5rem;
+            }
+            .big-number {
+                font-size: 2rem;
+            }
+        }
+
+        .source {
+            font-weight: 500;
+            background: #eef1f5;
+            border-radius: 24px;
+            padding: 0.2rem 0.8rem;
+            font-size: 0.7rem;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="dashboard-card">
+        <h1>
+            <i class="fas fa-lungs"></i> 
+            Gánh nặng ung thư tại Trung Quốc
+        </h1>
+        <div class="subhead">
+            <i class="fas fa-chart-line"></i> Tỷ lệ mắc & tử vong theo số liệu GLOBOCAN 2022 (IARC) – Cập nhật 2024
+            <span class="source" style="margin-left: 10px;"><i class="fas fa-database"></i> Nguồn: WHO / IARC</span>
+        </div>
+
+        <!-- Các chỉ số chính về tỷ lệ mắc và tỷ suất -->
+        <div class="stats-grid">
+            <div class="info-box">
+                <div class="info-title"><i class="fas fa-chart-simple"></i> Tổng số ca mắc mới hàng năm</div>
+                <div class="big-number">4.824.000 <small>ca</small></div>
+                <div class="stat-desc">📍 <strong>Đứng đầu thế giới</strong> về số lượng tuyệt đối, chiếm ~23.8% ca mắc toàn cầu (dân số 1,41 tỷ).</div>
+                <div class="stat-desc"><i class="fas fa-arrow-up" style="color:#c44536;"></i> Tỷ lệ mắc chuẩn hóa theo tuổi (ASR): <strong class="highlight">201,6 / 100.000</strong> dân (tất cả các loại ung thư, cả hai giới).</div>
+            </div>
+            <div class="info-box">
+                <div class="info-title"><i class="fas fa-skull-crosswalk"></i> Số ca tử vong do ung thư / năm</div>
+                <div class="big-number">2.574.000 <small>ca</small></div>
+                <div class="stat-desc">⚰️ Tỷ lệ tử vong chuẩn hóa ASR: <strong class="highlight">96,2 / 100.000</strong>. Ung thư phổi, gan, dạ dày chiếm tỷ trọng cao nhất.</div>
+                <div class="stat-desc"><i class="fas fa-exclamation-triangle" style="color:#e67e22;"></i> Ước tính trung bình mỗi ngày có hơn <strong>13.200 ca mắc mới</strong> và 7.050 ca tử vong.</div>
+            </div>
+        </div>
+
+        <!-- Khu vực biểu đồ chi tiết: Tỷ lệ mắc theo loại ung thư và so sánh giới tính -->
+        <div class="charts-row">
+            <div class="chart-card">
+                <h3><i class="fas fa-chart-pie"></i> 5 loại ung thư phổ biến nhất (Số ca mắc mới, 2022)</h3>
+                <canvas id="cancerBarChart" width="400" height="260" style="max-height: 260px;"></canvas>
+                <div class="stat-desc" style="margin-top: 12px; text-align:center;">※ Ung thư phổi, đại trực tràng, tuyến giáp, gan, dạ dày chiếm ~58% tổng số ca.</div>
+            </div>
+            <div class="chart-card">
+                <h3><i class="fas fa-venus-mars"></i> Tỷ lệ mắc chuẩn hóa (ASR) theo giới & khu vực</h3>
+                <canvas id="genderRateChart" width="400" height="260" style="max-height: 260px;"></canvas>
+                <div class="stat-desc" style="margin-top: 12px; text-align:center;"><i class="fas fa-chart-line"></i> ASR nam: 209,6 | ASR nữ: 197,0 (trên 100.000 dân). Khu vực thành thị cao hơn nông thôn.</div>
+            </div>
+        </div>
+
+        <!-- Bảng thống kê bổ sung theo độ tuổi và xu hướng -->
+        <div style="background: #F8FAFE; border-radius: 1.2rem; padding: 0.8rem 1.2rem; margin: 1rem 0 0.5rem;">
+            <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;">
+                <div><i class="fas fa-calendar-alt"></i> <strong>Xu hướng mắc mới giai đoạn gần đây:</strong> <span class="trend-badge"><i class="fas fa-charging-station"></i> Tăng ~3-5% mỗi năm đối với ung thư đại trực tràng, vú và tuyến giáp</span></div>
+                <div><i class="fas fa-people-arrows"></i> <strong>Dân số trung bình:</strong> 1,41 tỷ (2024)</div>
+            </div>
+            <div class="footnote" style="margin-top: 0.8rem; padding-top: 0.6rem; text-align: left; border-top-color: #cbdde6;">
+                <i class="fas fa-info-circle"></i> Tỷ lệ mắc thô (Crude rate): khoảng <strong>341,2/100.000</strong> dân. Chuẩn hóa theo tuổi (ASR thế giới) là chỉ số so sánh quốc tế phổ biến.
+                Theo báo cáo của Trung tâm Kiểm soát và Phòng ngừa Ung thư Trung Quốc, ung thư chiếm nguyên nhân tử vong hàng đầu.
+            </div>
+        </div>
+        <div class="footnote">
+            📊 Dữ liệu được tổng hợp từ GLOBOCAN 2022 (IARC), Tổ chức Y tế Thế giới (WHO) và Báo cáo thống kê ung thư Trung Quốc 2024.<br>
+            <i class="fas fa-chart-simple"></i> Tỷ lệ mắc chuẩn hóa theo độ tuổi (ASR) là 201,6 ca mới/100.000 người/năm. Tỷ lệ này cao hơn mức trung bình toàn cầu (~196,9/100.000).
+        </div>
+    </div>
+</div>
+
+<script>
+    (function() {
+        // Số liệu chi tiết dựa trên GLOBOCAN 2022 & báo cáo Trung Quốc 2024
+        // Các ca mắc mới hàng đầu (đơn vị: nghìn ca)
+        const cancerTypes = ['Phổi', 'Đại trực tràng', 'Tuyến giáp', 'Gan', 'Dạ dày', 'Vú (nữ)*'];
+        const newCases = [1060, 592, 481, 431, 398, 357];  // đơn vị nghìn ca (ước lượng sát)
+        // Lưu ý ung thư vú ở nữ là riêng biệt, nhưng để thể hiện tổng quan ưu tiên top5 (thêm vú như dữ liệu tham khảo)
+        // Nhưng biểu đồ cột top5: phổi, đại tràng, tuyến giáp, gan, dạ dày => 5 cột đầu.
+        const barCtx = document.getElementById('cancerBarChart').getContext('2d');
+        new Chart(barCtx, {
+            type: 'bar',
+            data: {
+                labels: cancerTypes.slice(0,5),
+                datasets: [{
+                    label: 'Số ca mắc mới (nghìn ca) • năm 2022',
+                    data: newCases.slice(0,5),
+                    backgroundColor: [
+                        '#e06c5e', '#e99c6e', '#59a89c', '#3e8b8a', '#c46242'
+                    ],
+                    borderRadius: 10,
+                    barPercentage: 0.7,
+                    categoryPercentage: 0.8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: { position: 'top', labels: { font: { size: 11, weight: 'bold' } } },
+                    tooltip: { callbacks: { label: (ctx) => `${ctx.raw.toLocaleString()} nghìn ca (${(ctx.raw/4824*100).toFixed(1)}% tổng số)` } }
+                },
+                scales: {
+                    y: { 
+                        title: { display: true, text: 'Nghìn ca', font: { weight: '500' } },
+                        beginAtZero: true,
+                        grid: { color: '#e2e8f0' }
+                    },
+                    x: { title: { display: true, text: 'Loại ung thư', font: { weight: '500' } } }
+                }
+            }
+        });
+
+        // Biểu đồ thể hiện Tỷ lệ mắc chuẩn hóa ASR (trên 100.000) theo giới và đối chiếu với Trung Quốc và toàn cầu.
+        // Số liệu: ASR nam giới Trung Quốc = 209.6, nữ = 197.0, trung bình cả hai giới = 201.6 (đã đề cập)
+        // So sánh với ASR toàn cầu trung bình ~196.9 (nam ~ 212, nữ ~ 186)
+        const genderCtx = document.getElementById('genderRateChart').getContext('2d');
+        new Chart(genderCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Trung Quốc (nam)', 'Trung Quốc (nữ)', 'Toàn cầu (nam)', 'Toàn cầu (nữ)'],
+                datasets: [
+                    {
+                        label: 'Tỷ lệ mắc chuẩn hóa độ tuổi (ASR) /100.000 dân',
+                        data: [209.6, 197.0, 212.0, 186.0],  // Số liệu GLOBOCAN chuẩn
+                        backgroundColor: ['#c44536', '#e67f5c', '#518b9e', '#83b8c9'],
+                        borderRadius: 8,
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    tooltip: { callbacks: { label: (ctx) => `${ctx.raw} ca mắc mới / 100.000 dân` } },
+                    legend: { position: 'top' }
+                },
+                scales: {
+                    y: { 
+                        title: { display: true, text: 'ASR (mỗi 100.000 dân)', font: { weight: 'bold' } },
+                        beginAtZero: true,
+                        max: 240,
+                        grid: { color: '#dee4ec' }
+                    }
+                }
+            }
+        });
+
+        // Thêm một số chú thích động cũng như chạy tính toán tỷ suất trong console (không cần thiết)
+        console.log('Dashboard ung thư Trung Quốc | Tỷ lệ mắc ASR: 201,6 | Số mắc mới: 4.824.000 ca');
+    })();
+</script>
+
+<!-- Bổ sung giải thích chi tiết bằng HTML nội tuyến để hiển thị bảng tỷ lệ mắc theo nhóm tuổi đơn giản -->
+<div class="container" style="margin-top: 1.2rem;">
+    <div style="background: #ffffffdb; border-radius: 1.5rem; padding: 1.2rem 1.5rem; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
+        <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline;">
+            <h3 style="font-size: 1.2rem; font-weight: 700; color: #2c5c7c;"><i class="fas fa-chart-column"></i> Tỷ lệ mắc theo độ tuổi & giới tính (Trung Quốc, ASR)</h3>
+            <span class="trend-badge"><i class="far fa-clock"></i> Dữ liệu độ tuổi chuẩn hóa</span>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 0.8rem; margin-top: 1rem;">
+            <div><i class="fas fa-mars"></i> <strong>Nam giới:</strong> Nguy cơ cao nhất ở độ tuổi 60-79 (ASR nhóm cao: 1.250/100k nhóm tuổi già). Ung thư phổi, gan chiếm 44%.</div>
+            <div><i class="fas fa-venus"></i> <strong>Nữ giới:</strong> Ung thư vú, tuyến giáp và phổi chiếm ưu thế. Tỷ lệ mắc ở nữ trẻ (30-49) đang gia tăng nhanh.</div>
+            <div><i class="fas fa-city"></i> <strong>Khu vực thành thị:</strong> Tỷ lệ mắc thô cao hơn nông thôn 22% (do lối sống, tầm soát).</div>
+        </div>
+        <div class="stat-desc" style="margin-top: 12px; background:#f2f6fc; border-radius: 1rem; padding: 0.6rem;">
+            <i class="fas fa-chart-line"></i> <strong>Xu hướng đáng chú ý:</strong> Ung thư tuyến giáp tăng 20% trong 5 năm qua, đặc biệt ở nữ giới trẻ. Trong khi đó tỷ lệ mắc ung thư dạ dày & thực quản giảm nhẹ nhờ cải thiện vệ sinh và dinh dưỡng.
+        </div>
+    </div>
+</div>
+
+<!-- Dòng tổng kết cuối với các tỉ lệ mắc so với thế giới -->
+<div class="container" style="margin-top: 0.8rem; margin-bottom: 0.5rem;">
+    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 0.8rem; font-size: 0.8rem; color: #2c577a;">
+        <div><i class="fas fa-globe-asia"></i> 🌏 Tỷ lệ mắc chuẩn hóa Trung Quốc: <strong>201,6</strong> – Cao hơn mức trung bình toàn cầu (196,9)</div>
+        <div><i class="fas fa-weight-hanging"></i> Gánh nặng bệnh tật: Hơn 30% ca ung thư thực quản, gan và dạ dày toàn cầu tập trung tại Trung Quốc.</div>
+        <div><i class="fas fa-microscope"></i> Dự báo 2025: Số ca mắc mới dự kiến vượt 5,2 triệu nếu xu hướng già hóa dân số tiếp tục.</div>
+    </div>
+    <div class="footnote" style="margin-top: 0.4rem;">
+        <i class="fas fa-flag-checkered"></i> Số liệu cập nhật theo báo cáo “China National Cancer Center (NCC) 2024” và IARC Globocan 2022. Tỷ lệ mắc thô và chuẩn hóa tuổi phản ánh gánh nặng ung thư thực tế.
+    </div>
+</div>
+
+</body>
+</html>
