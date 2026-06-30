@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Giới thiệu Thủ đô Nga</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#eef3ff;
+}
+
+.login{
+    width:320px;
+    margin:120px auto;
+    background:white;
+    padding:25px;
+    border-radius:12px;
+    box-shadow:0 0 15px rgba(0,0,0,.2);
+    text-align:center;
+}
+
+input{
+    width:90%;
+    padding:10px;
+    margin:10px 0;
+    font-size:16px;
+}
+
+button{
+    padding:10px 20px;
+    font-size:16px;
+    cursor:pointer;
+}
+
+#content{
+    display:none;
+    padding:30px;
+}
+
+header{
+    background:#c62828;
+    color:white;
+    text-align:center;
+    padding:20px;
+}
+
+section{
+    background:white;
+    margin:20px auto;
+    max-width:900px;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,.15);
+}
+
+img{
+    width:100%;
+    border-radius:10px;
+}
+</style>
+
+</head>
+<body>
+
+<div class="login" id="loginBox">
+    <h2>🔒 Khu vực bảo vệ</h2>
+    <p>Nhập mật khẩu để xem nội dung.</p>
+
+    <input type="password" id="password" placeholder="Nhập mật khẩu">
+
+    <br>
+
+    <button onclick="login()">Đăng nhập</button>
+
+    <p id="msg" style="color:red;"></p>
+</div>
+
+<div id="content">
+
+<header>
+<h1>MOSCOW - THỦ ĐÔ CỦA NGA</h1>
+</header>
+
+<section>
+
+<h2>Giới thiệu</h2>
+
+<p>
+Moscow (Mát-xcơ-va) là thủ đô và cũng là thành phố lớn nhất của Nga.
+Đây là trung tâm chính trị, kinh tế, văn hóa và khoa học của đất nước.
+</p>
+
+<img src="https://upload.wikimedia.org/wikipedia/commons/e/e2/Moscow-City.jpg">
+
+</section>
+
+<section>
+
+<h2>Thông tin cơ bản</h2>
+
+<ul>
+<li>Quốc gia: Nga</li>
+<li>Dân số: Hơn 13 triệu người</li>
+<li>Múi giờ: UTC+3</li>
+<li>Ngôn ngữ: Tiếng Nga</li>
+<li>Đơn vị tiền tệ: Đồng Rúp Nga</li>
+</ul>
+
+</section>
+
+<section>
+
+<h2>Địa điểm nổi tiếng</h2>
+
+<ul>
+<li>Quảng trường Đỏ</li>
+<li>Điện Kremlin</li>
+<li>Nhà thờ Thánh Basil</li>
+<li>Ga tàu điện ngầm Moscow</li>
+<li>Nhà hát Bolshoi</li>
+</ul>
+
+</section>
+
+<section>
+
+<h2>Lịch sử</h2>
+
+<p>
+Moscow được thành lập vào thế kỷ XII và dần trở thành trung tâm quyền lực
+của Nga. Thành phố đã trải qua nhiều giai đoạn lịch sử quan trọng và hiện nay
+là một trong những đô thị lớn nhất châu Âu.
+</p>
+
+</section>
+
+</div>
+
+<script>
+
+const PASSWORD = "moscow2026";
+
+function login(){
+
+    let pw = document.getElementById("password").value;
+
+    if(pw === PASSWORD){
+
+        document.getElementById("loginBox").style.display="none";
+        document.getElementById("content").style.display="block";
+
+    }else{
+
+        document.getElementById("msg").innerHTML="Sai mật khẩu!";
+
+    }
+
+}
+
+</script>
+
+</body>
+</html>
